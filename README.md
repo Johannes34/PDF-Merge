@@ -11,3 +11,5 @@ With this simple app,
 
 Installation:
 - download the MSI and double click it. You can find the shortcut on your desktop and in the start menu.
+
+![image](https://github.com/Johannes34/PDF-Merge/assets/36926432/a3066d6a-8a68-4ed4-bbd1-2fa35b669bd9)
