@@ -1,0 +1,71 @@
+﻿<Window x:Class="PDF_Merge.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDF_Merge"
+        x:Name="root"
+        mc:Ignorable="d"
+        AllowDrop="True"
+        Drop="root_Drop"
+        Title="Merge PDFs" Height="450" Width="800" Icon="/arrow-merge.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="Merge non-duplex scanned PDF files" FontSize="18" Grid.ColumnSpan="3" Margin="10,20,10,30" />
+        
+        <TextBlock Text="PDF with odd pages: " Grid.Row="1" Margin="5,5,5,15" />
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,15" Text="{Binding ElementName=root, Path=OddPagesPdfFile}" />
+        <Button Content="..." Width="24" Grid.Row="1" Grid.Column="2" Margin="5,5,5,15" Click="BrowseOddPagesPdf_Click" />
+
+        <TextBlock Text="PDF with even pages:" Grid.Row="2" Margin="5"  />
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding ElementName=root, Path=EvenPagesPdfFile}" />
+        <Button Content="..." Width="24" Grid.Row="2" Grid.Column="2" Margin="5" Click="BrowseEvenPagesPdf_Click" />
+
+        <CheckBox Content="Reverse order of even pages" IsChecked="{Binding ElementName=root, Path=ReverseEvenPdfPages}" Grid.Row="3" Grid.Column="1" Margin="5,5,5,35" />
+
+        <Button Content="Merge" Grid.Row="4" Grid.ColumnSpan="1" Margin="10,5" Click="Merge_Click" IsEnabled="{Binding ElementName=root, Path=CanMerge}" />
+        <CheckBox Content="Delete source files after merging" IsChecked="{Binding ElementName=root, Path=DeleteSourceFiles}" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" />
+
+        <Grid Grid.Row="5" Grid.ColumnSpan="3" Margin="5,25,5,10" Visibility="{Binding ElementName=root, Path=ShowResultArea}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <ListView ItemsSource="{Binding ElementName=root, Path=Log}" />
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button Content="Open output directory" Padding="3" Margin="0,5" Click="OpenOutputFolder_Click" IsEnabled="{Binding ElementName=root, Path=HasLastOutputFile}" />
+                <Button Content="Open merged PDF" Padding="3" Margin="10,5" Click="OpenOutputFile_Click" IsEnabled="{Binding ElementName=root, Path=HasLastOutputFile}" />
+            </StackPanel>
+        </Grid>
+
+
+        <TextBlock Grid.Row="6" FontSize="10" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="30,2" Opacity="0.5">
+            <Run Text="Created by Johannes Meier." />
+            <!--<Hyperlink RequestNavigate="Hyperlink_RequestNavigate">
+                <Run Text="Buy me a coffee" />
+            </Hyperlink>-->
+            <Run Text="          " />
+            
+            <Run Text="Powered by" />
+            <Hyperlink NavigateUri="https://www.pdfsharp.net/" RequestNavigate="Hyperlink_RequestNavigate">
+                <Run Text="PdfSharp" />
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</Window>

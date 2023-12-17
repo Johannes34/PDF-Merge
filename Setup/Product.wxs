@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Product Id="*" Name="PDF Merge" Language="1033" Version='1.0.0.0' Manufacturer="Johannes Meier" UpgradeCode="4cb95e47-91c7-48aa-9bf5-2d531d13f859">
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perUser" InstallPrivileges="limited" />
+
+		<Property Id="TargetDirectory" Value="[LocalAppDataFolder]PDF Merge" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="Setup" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+
+		<!-- Load the Icon file: -->
+		<Icon Id="AppIcon" SourceFile="..\PDF Merge\bin\Release\net7.0-windows\PDF Merge.exe" />
+
+		<!-- Sets the Icon in Add/Remove Programs: -->
+		<Property Id="ARPPRODUCTICON" Value="AppIcon" />
+	</Product>
+
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<!-- Desktop (for shortcut):-->
+			<Directory Id="DesktopFolder" Name="Desktop" />
+			<!-- start menu (for shortcut): -->
+			<Directory Id="ProgramMenuFolder" Name="User's Programs Menu"/>
+			<!-- install directory: -->
+			<Directory Id="LocalAppDataFolder" Name="User's Local AppData Folder">
+				<Directory Id="INSTALLFOLDER" Name="PDF Merge" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER" Source="..\PDF Merge\bin\Release\net7.0-windows\">
+			<Component Id="ProductComponent" Guid="d4b00a1e-fda3-4d4b-beb1-3bcba8f76d16">
+				<RemoveFolder Id='RemoveInstallFolder' Directory='INSTALLFOLDER' On='uninstall' />
+				<RegistryValue Root='HKCU' Key='Software\PDF Merge' Name='InstallFolder' Value='[INSTALLFOLDER]' Type='string' KeyPath='yes' />
+				<File Name="Microsoft.Extensions.Configuration.Abstractions.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Configuration.Binder.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Configuration.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.DependencyInjection.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Logging.Abstractions.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Logging.Configuration.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Logging.Console.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Logging.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Options.ConfigurationExtensions.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Options.dll" DiskId="1" />
+				<File Name="Microsoft.Extensions.Primitives.dll" DiskId="1" />
+				<File Name="PDF Merge.deps.json" DiskId="1" />
+				<File Name="PDF Merge.dll" DiskId="1" />
+				<File Name="PDF Merge.exe" DiskId="1">
+					<Shortcut Id="shortcutClientStartmenu" Directory="ProgramMenuFolder" Name="PDF Merge" Icon="AppIcon" IconIndex="0" WorkingDirectory="TARGETDIR" Description="Merge non-duplex scanned PDF files" />
+					<Shortcut Id="shortcutClientDesktop" Directory="DesktopFolder" Name="PDF Merge" Icon="AppIcon" IconIndex="0" WorkingDirectory="TARGETDIR" Description="Merge non-duplex scanned PDF files" />
+				</File>
+				<File Name="PDF Merge.runtimeconfig.json" DiskId="1" />
+				<File Name="PdfSharp.Charting.dll" DiskId="1" />
+				<File Name="PdfSharp.dll" DiskId="1" />
+				<File Name="PdfSharp.Quality.dll" DiskId="1" />
+				<File Name="PdfSharp.Snippets.dll" DiskId="1" />
+				<File Name="PdfSharp.System.dll" DiskId="1" />
+				<File Name="PdfSharp.WPFonts.dll" DiskId="1" />
+			</Component> 
+		</ComponentGroup>
+	</Fragment>
+</Wix>
