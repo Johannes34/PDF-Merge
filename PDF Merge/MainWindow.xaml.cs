@@ -28,7 +28,7 @@ namespace PDF_Merge
             try
             {
                 // load last directory from registry:
-                LastDirectory = Registry.CurrentUser.OpenSubKey("Software\\JM PDF Merge")?.GetValue("LastDirectory", String.Empty) as string;
+                LastDirectory = Registry.CurrentUser.OpenSubKey("Software\\PDF Merge")?.GetValue("LastDirectory", String.Empty) as string;
 
                 // fallback: use app startup directory:
                 if (String.IsNullOrEmpty(LastDirectory))
@@ -60,9 +60,9 @@ namespace PDF_Merge
         {
             try
             {
-                var key = Registry.CurrentUser.OpenSubKey("Software\\JM PDF Merge", true);
+                var key = Registry.CurrentUser.OpenSubKey("Software\\PDF Merge", true);
                 if (key == null)
-                    key = Registry.CurrentUser.CreateSubKey("Software\\JM PDF Merge", true);
+                    key = Registry.CurrentUser.CreateSubKey("Software\\PDF Merge", true);
                 key.SetValue("LastDirectory", LastDirectory);
             }
             catch (Exception e)
@@ -414,7 +414,7 @@ namespace PDF_Merge
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start(e.Uri.ToString());
+            RunProcess(e.Uri.ToString());
         }
 
         #endregion
